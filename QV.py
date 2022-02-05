@@ -7,18 +7,18 @@ words = ["charge", "glass", "faith", "then", "alone", "passion",
          "corner", "must", "somewhat", "dropped", "one",
          "seemed", "give", "flower"]
 
+finArr = [["charge", "glass", "faith", "then", "alone", "passion",
+         "corner", "must", "somewhat", "dropped", "one",
+         "seemed", "give", "flower"]]
 with open(r'C:\Users\Cullen\Downloads\AABooks\Charles Dickens - cleared/BARNABY RUDGE.txt', encoding="utf8") as file:
     long_description = file.read()
     split = long_description.split()
     wordCount = len(split)
-    print(wordCount)
 
 prob = []
 for i in words:
     occ = long_description.count(i)
     prob.append(occ/wordCount)
-for j in prob:
-    print(j)
-
-
-
+    finArr.append(prob)
+for i in finArr:
+    print(i)
