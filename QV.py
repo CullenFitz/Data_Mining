@@ -1,14 +1,12 @@
-import pandas as pd
 import numpy as np
-import nltk
 import os
+import matplotlib.pyplot as plt
 
 words = ["charge", "glass", "faith", "then", "alone", "passion",
-         "corner", "must", "somewhat", "dropped", "one",
+         "corner", "must", "somewhat", "dropped", "difficult", "one",
          "seemed", "give", "flower"]
 
 finArr = []
-prob = []
 sources = []
 
 dickens = r"C:\Users\Cullen\Downloads\AABooks\Charles Dickens - cleared"
@@ -20,18 +18,24 @@ sources.append(eliot)
 sources.append(hardy)
 
 for source in sources:
+    #print(source)
     for filename in os.listdir(source):
         f = os.path.join(source, filename)
         if os.path.isfile(f):
-            with open(f,
-                      encoding="utf8") as file:
+            #print(f)
+            prob = []
+            with open(f, encoding="utf8") as file:
                 long_description = file.read()
                 split = long_description.split()
                 wordCount = len(split)
-
                 for i in words:
                     occ = long_description.count(i)
                     prob.append(occ / wordCount)
                 finArr.append(prob)
 
-print(finArr)
+for i in finArr:
+    print(i)
+
+plt.imshow(finArr)
+plt.colorbar()
+plt.show()
