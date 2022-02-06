@@ -2,8 +2,9 @@ import numpy as np
 import os
 import matplotlib.pyplot as plt
 import pandas as pd
+from tabulate import tabulate
 
-words = ["charge", "glass", "faith", "then", "alone", "passion",
+words = [" ", "charge", "glass", "faith", "then", "alone", "passion",
          "corner", "must", "somewhat", "dropped", "difficult", "one",
          "seemed", "give", "flower"]
 
@@ -36,29 +37,35 @@ hardy = r"C:\Users\Cullen\Downloads\AABooks\Thomas Hardy - cleared"
 sources.append(dickens)
 sources.append(eliot)
 sources.append(hardy)
-authInd = 0
+count = 0
 for source in sources:
-    authInd += 1
-    bookInd = 0
-    #print(authInd)
     for filename in os.listdir(source):
-        bookInd += 1
-        #print(bookInd)
+        count += 1;
         f = os.path.join(source, filename)
         if os.path.isfile(f):
             prob = []
-            #prob.append(books[authInd][bookInd])
+            prob.append(filename)
             with open(f, encoding="utf8") as file:
                 long_description = file.read()
                 split = long_description.split()
                 wordCount = len(split)
+                count = 0;
                 for i in words:
-                    occ = long_description.count(i)
-                    prob.append(occ / wordCount)
+                    count += 1
+                    if count == 1:
+                        continue
+                    else:
+                        occ = long_description.count(i)
+                        prob.append(occ / wordCount)
                 finArr.append(prob)
 
-#for i in finArr:
-    #print(i)
 
-print(pd.DataFrame(finArr))
+pd.set_option("display.max_rows", None, "display.max_columns", None)
+df = pd.DataFrame(finArr)
+print(tabulate(df, headers='keys', tablefmt='pretty'))
+#print(df)
 
+
+"""
+Make 3 seperate tables for each author. X Axis has words, Y axis has occurences. Do this for each author
+"""
