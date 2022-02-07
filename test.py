@@ -1,6 +1,7 @@
 import os
 import pandas as pd
 from tabulate import tabulate
+import numpy as np
 
 words = [" ", "charge", "glass", "faith", "then", "alone", "passion",
          "corner", "must", "somewhat", "dropped", "difficult", "one",
@@ -16,9 +17,15 @@ sources.append(dickens)
 sources.append(eliot)
 sources.append(hardy)
 
+datDickens = []
+datEliot = []
+datHardy = []
+
+authCount = 0
 for source in sources:
     finArr = []
     finArr.append(words)
+    authCount += 1
     for filename in os.listdir(source):
         f = os.path.join(source, filename)
         if os.path.isfile(f):
@@ -37,12 +44,34 @@ for source in sources:
                         occ = long_description.count(i)
                         prob.append(occ / wordCount)
                 finArr.append(prob)
+                if authCount == 1:
+                    new = prob.copy()
+                    new.pop(0)
+                    datDickens.append(new)
+                elif authCount == 2:
+                    new = prob.copy()
+                    new.pop(0)
+                    datEliot.append(new)
+                else:
+                    new = prob.copy()
+                    new.pop(0)
+                    datHardy.append(new)
     pd.set_option("display.max_rows", None, "display.max_columns", None)
     df = pd.DataFrame(finArr)
     print(tabulate(df, headers='keys', tablefmt='pretty'))
 
+datDickens = np.transpose(datDickens)
+datEliot = np.transpose(datEliot)
+datHardy = np.transpose(datHardy)
+
+dicRes = list(map(sum, datDickens))
+eliRes = list(map(sum, datEliot))
+harRes = list(map(sum, datHardy))
+
+print(dicRes)
+print(eliRes)
+print(harRes)
+#For each author, find the words that occur the most for that author
 
 
-"""
-Make 3 seperate tables for each author. X Axis has words, Y axis has occurences. Do this for each author
-"""
+
